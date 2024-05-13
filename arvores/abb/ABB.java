@@ -54,4 +54,33 @@ public class ABB {
             stringRecInOrder(atual.getDireita());
         return "";
     }
+
+    public int nivel (){
+        if (estaVazia()) return 0;
+        return nivelRec(raiz);
+    }
+    int nivelRec( No atual){
+        if (atual.getEsquerda() == null && atual.getDireita() == null) return 0; //nao tem filho nenhum 
+
+        int nivelEsq=0, nivelDir=0; //para inicializar
+        if (atual.getEsquerda() != null){
+            nivelEsq =  nivelRec(atual.getEsquerda());
+        }
+        if (atual.getDireita() != null){
+            nivelDir = nivelRec(atual.getDireita());
+        }
+       return nivelEsq > nivelDir ? nivelEsq + 1 : nivelDir + 1;
+
+    }
+
+    public int numeroNos (){
+        if (estaVazia()) return 1;
+        return numeroNosRec(raiz);
+    }
+
+    int numeroNosRec(No atual){
+        if (atual == null) return 0;
+        return numeroNosRec(atual.getEsquerda()) + 1 + numeroNosRec(atual.getDireita()); //total direita 
+        
+    }
 }
