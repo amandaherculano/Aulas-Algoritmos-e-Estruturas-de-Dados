@@ -16,5 +16,21 @@ public class TesteABB {
         System.out.println("\nMaior valor: " + abb.maior());
         System.out.println("\nMaior por recursao: " + abb.chamaMaiorRec());
         System.out.println("\nTemos " + abb.folhas() + " folhas");
+        // int x = random.nextInt(20);
+        // if ( abb.existeValor(x)){
+        //     System.out.println(x + " existe na arvore");
+
+        // }else{
+        //     System.out.println(x + " nao existe na arvore");
+        // }
+
+        // System.out.println("chamada do proximo: " + abb.proximo(20));
+        int result = abb.proximo(20);
+        if (result == -1){
+            System.out.println("oh oh, tente mais tarde");
+        }
+        else{
+            System.out.println("O proximo valor eh: " + result);
+        }
     }
 }

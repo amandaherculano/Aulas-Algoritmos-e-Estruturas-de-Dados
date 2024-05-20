@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ABB {
     private No raiz;
     public boolean estaVazia(){
@@ -109,18 +111,63 @@ public class ABB {
  
     int folhasRec (No atual) {
         if (atual == null) return 0;
-        if (atual.getEsquerda()==null && atual.getDireita()==null) return 1;
+        if (atual.getEsquerda()==null && atual.getDireita()==null) 
+            return 1;
         return folhasRec(atual.getEsquerda()) + folhasRec(atual.getDireita());
     }
  
-    public int sucessor (int i) {
-        if (estaVazia()) return -1;
- 
-        if (referencia(i) == null) return -1;
+
+    //a busca pelo proximo elemento  pode ser muito complicada, pois as ramificaçõespodem acontecer de varias maneiras; uma possibilidade  é percorrer a arvote "emOrdem" e buscas o elemento na lista
+    
+    // o curso é O(n) 
+
+    // public int proximo (int i) { //imediatamente
+    //     if (estaVazia()) return -1;
+    //     //proximo elemento quando nao ha repeticao: 1. filho da direita se nao houver alguem a esquerda do seu filho ou 2. de cima 
+    //     if (referencia(i) == null) return -1;
+    // }
+    
+    // public No referencia (int i) {
+    //     if (raiz.getInfo() == i) 
+    //         return raiz;
+    //     if (i > raiz.getInfo()) 
+    //         return referenciaRec(i, raiz.getDireita());
+    //     return refereciaRec(i, raiz.getEsquerda());
+    // }
+
+
+    public int proximo (int x){
+        if (estaVazia()) return -1; //decisao de projeto 
+        ArrayList<Integer> lista = new ArrayList<>();  //auto dimensiona 
+        constroiLista (lista, raiz); //recursivo
+        System.out.println(lista);
+        if ( !lista.contains(x)) return -1; //se nao tem o valor na lista
+        int posicao = lista.indexOf(x); //posicao do valor
+        // if ( posicao == lista.size()-1) return -1; //se for o ultimo
+        // return lista.get(posicao+1);
+
+        return posicao == lista.size()-1 ? -1 : lista.get(posicao+1); 
     }
-    public No referencia (int i) {
-        if (raiz.getInfo() == i) return raiz;
-        if (i > raiz.getInfo()) return referenciaRec(i, raiz.getDireita());
-        return refereciaRec(i, raiz.getEsquerda());
+
+    void constroiLista (ArrayList lista, No atual){ //usar ArrayList garantir que tem uma classe que ja faz isso, int e promove para Integer -> API do Java ja se responsabiliza
+        if (atual != null){
+            constroiLista(lista, atual.getEsquerda());
+            lista.add(atual.getInfo()); //sempre no final
+            constroiLista(lista, atual.getDireita());
+        }
     }
+
+    public boolean buscaBinaria ( int x){
+        if (estaVazia()) return false;
+        return buscaBinariaRec(x, raiz);
+    }
+
+    boolean buscaBinariaRec (int x, No atual){
+        if (atual == null) return false; //se nao achar
+        if (atual.getInfo() == x) return true; //achou o valor que esta procurando
+        if (x < atual.getInfo()) 
+            return buscaBinariaRec(x, atual.getEsquerda()); //se for menor vai para esquerda
+        return buscaBinariaRec(x , atual.getDireita()); //se for maior vai para direita
+    }
+
 }
