@@ -84,8 +84,8 @@ public class ABB {
     }
 
     int numeroNosRec(No atual){
-        if (atual == null) return 0;
-        return numeroNosRec(atual.getEsquerda()) + 1 + numeroNosRec(atual.getDireita()); //total direita 
+        if (atual == null) return 0; //nao tem filho nenhum retorno 0
+        return numeroNosRec(atual.getEsquerda()) + 1 + numeroNosRec(atual.getDireita()); //investiga direita, sob=ma 1 da raiza, investiga esquerda, se for null soma 0  e sobe a soma 
         
     }
 }

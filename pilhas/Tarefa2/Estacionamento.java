@@ -26,10 +26,10 @@ public class Estacionamento {
         }
 
         System.out.println("Digite a placa do carro que deseja retirar do estacionemento: ");
-        int placa = scanner.nextInt();
-        Carro carro = new Carro(placa);
-        estacionamento.pop(carro);
-        rua.push(carro);
+        int placaRetirado = scanner.nextInt();
+        Carro carroRetirado = new Carro(placaRetirado);
+        estacionamento.pop(carroRetirado);
+        rua.push(carroRetirado);
         System.out.println(estacionamento);
         scanner.close();
     }

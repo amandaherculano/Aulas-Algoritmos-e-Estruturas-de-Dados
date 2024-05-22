@@ -1,4 +1,4 @@
-package Pilhas.pilha_sobre_lista_generica;
+
 
 public class No<Info> {
     private Info info;
