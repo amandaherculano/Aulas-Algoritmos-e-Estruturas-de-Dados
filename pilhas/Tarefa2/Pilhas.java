@@ -13,6 +13,10 @@ public class Pilhas <Info>{
         }
         topo = novo;
     }
+    public void esvaziar() {
+        topo = null;
+    }
+
 
     //muda o pop: conseguimos devolver null, pilha fica mais robusta 
 

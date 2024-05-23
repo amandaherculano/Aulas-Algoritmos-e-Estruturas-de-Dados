@@ -170,4 +170,90 @@ public class ABB {
         return buscaBinariaRec(x , atual.getDireita()); //se for maior vai para direita
     }
 
+    public boolean remove (int x){
+        if (estaVazia()){
+            return false;
+        }
+        else{
+            removeRec(x, raiz, null, false); //null pq não é filho esquerdo de ninguem
+            return true;
+        }
+        
+    }
+
+    boolean removeRec( int x, No atual, No pai, boolean eFilhoEsquerdo ){
+        if (atual != null){
+            if ( x == atual.getInfo()){ //achou
+                if (atual.getDireita() == null && atual.getEsquerda() == null){ //nao tem filhos
+                    if (pai == null){ //se for a raiz, unico no que tinha 
+                        raiz = null;
+                    }
+                    //descobrir se é direito ou esquerdo do pai 
+                    else if (eFilhoEsquerdo){ //avo vai adotar o nó
+                        pai.setEsquerda(null); //corta ramo
+                    }
+                    else{
+                        pai.setDireita(null); //corta ramo
+                    }
+                }
+
+                else if ( atual.getDireita() == null){ //tem apenas o filho da esquerda
+                    if ( pai == null){ //se for a raiz
+                        raiz = atual.getEsquerda();
+                    }
+                    else if (eFilhoEsquerdo){
+                        pai.setEsquerda(atual.getEsquerda());
+                    }
+                    else{
+                        pai.setDireita(atual.getEsquerda());
+                    }
+                }
+                else if( atual.getEsquerda() == null){ //tem apenas o filho da direita
+                    if (pai == null){ //se for a raiz
+                        raiz = atual.getDireita();
+                    }
+                    else if (eFilhoEsquerdo){
+                        pai.setEsquerda(atual.getDireita());
+                    }
+                    else{
+                        pai.setDireita(atual.getDireita());
+                    }
+                }
+                else {   //tem os dois filhos
+
+                    //se for a raiz
+                    if (pai == null){  //atual==raiz
+                        raiz = atual.getDireita();
+                    }else{
+                        //o pai sempre adota a subarvore da direita 
+                        if (eFilhoEsquerdo){
+                            pai.setEsquerda(atual.getDireita());
+                        }
+                        else{
+                            pai.setDireita(atual.getDireita());
+                        }
+                    }
+                    //encontrar o sucessor -> menor maior valor que aquele que vai ser removido 
+                    No sucessor = atual.getDireita();
+                    while (sucessor.getEsquerda() != null){
+                        sucessor = sucessor.getEsquerda(); //vai descendo para o mais a direita possivel
+                    }
+                    sucessor.setEsquerda(atual.getEsquerda());
+                }
+                return true;
+            }
+            else if ( x < atual.getInfo()){
+               eFilhoEsquerdo = true;
+               pai = atual;
+               removeRec(x, atual.getEsquerda(), pai, eFilhoEsquerdo); //altera
+            
+            }
+            else{
+                eFilhoEsquerdo = false;
+                pai = atual;
+                removeRec(x, atual.getDireita(), pai, eFilhoEsquerdo); //altera
+                // removeRec(x, atual.getDireita(), atual, false); //ja esta chamando sem nomear
+            }
+        }return false;
+    }
 }
