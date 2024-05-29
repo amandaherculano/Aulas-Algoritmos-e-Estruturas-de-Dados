@@ -1,5 +1,5 @@
 public class Pilhas <Info>{
-    private No<Info> topo;
+    public No<Info> topo;
 
     //construtor padrão 
     public boolean estaVazia(){

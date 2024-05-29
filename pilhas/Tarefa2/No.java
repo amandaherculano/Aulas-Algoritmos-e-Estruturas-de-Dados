@@ -1,5 +1,5 @@
 public class No<Info> {
-    private Info info;
+    public Info info;
     private No<Info> proximo;
     public No(Info info) {
         this.info = info;
