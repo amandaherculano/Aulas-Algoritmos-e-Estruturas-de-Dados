@@ -22,6 +22,7 @@ public class Estacionamento {
                     int placaNovo = scanner.nextInt();
                     Carro carroNovo = new Carro(placaNovo);
                     estacionamento.push(carroNovo);
+                    carroNovo.setEstaEstacionado(true);
                     quantidadeAtual = quantidadeAtual + 1;
                     System.out.println("Ocupação atual: "+ quantidadeAtual + ", máximo: " + quantidadeMaxima);
                 }
@@ -42,7 +43,7 @@ public class Estacionamento {
                         No<Carro> carroAtual = estacionamento.topo; //percorrendo a pilha
                         if (carroAtual.getInfo().getPlaca() == placaRetirado){ 
                             achou = true;
-                            System.out.println("O carro " + carroAtual + "foi retirado do estacionamento"); //nao
+                            System.out.println("O carro " + carroAtual + " foi retirado do estacionamento"); //nao
                             estacionamento.pop(carroAtual.getInfo()); 
                             quantidadeAtual = quantidadeAtual - 1;
                             carroRetirado.estaEstacionado = false;
@@ -51,9 +52,10 @@ public class Estacionamento {
                                     
                                 estacionamento.push(rua.pop(rua.topo.getInfo()));
                                 estacionamento.topo.getInfo().setManobras();
-                                System.out.println("Manobras: " + estacionamento.topo.getInfo().getManobras());
-                                System.out.println("Rua: "+ rua);
-                                System.out.println("Estacionamento: " + estacionamento);
+                                estacionamento.topo.getInfo().setEstaEstacionado(true);
+                                // System.out.println("Manobras: " + estacionamento.topo.getInfo().getManobras());
+                                // System.out.println("Rua: "+ rua);
+                                // System.out.println("Estacionamento: " + estacionamento);
                             }
                         }else{ 
                             rua.push(estacionamento.pop(carroAtual.getInfo()));
@@ -62,18 +64,43 @@ public class Estacionamento {
                     }
                 }
             } else if (opcao == 3) { //consultar
-                int posicao;
+                int posicao = 1;
                 System.out.println("Digite a placa do carro que deseja consultar: ");
                 int placaConsultado = scanner.nextInt();
                 Carro carroConsultado = new Carro(placaConsultado);
-                
-                if (carroConsultado.estaEstacionado == true) {
-                    System.out.println("O carro está no estacionamento");
-                    //TODO qual posicao
+                if (carroConsultado.estaEstacionado == false) {
+                    System.out.println("O carro não está no estacionamento");
+                }else{
                     boolean achou = false;
-                    while (!estacionamento.estaVazia() && !achou){
+                    Pilhas<Carro> rua = new Pilhas<Carro>(); 
+                    if(!achou){
+                        while (!estacionamento.estaVazia() && !achou){
+                            No<Carro> carroAtual = estacionamento.topo; //percorrendo a pilha
+                            if (carroAtual.getInfo().getPlaca() == placaConsultado){ 
+                                achou = true;
+                                
+                                System.out.println(carroAtual.getInfo());
+                                System.out.println("E ele está na posição: " + posicao); 
+    
+                                while (!rua.estaVazia() && achou){
+                                    
+                                    estacionamento.push(rua.pop(rua.topo.getInfo()));
+                                    estacionamento.topo.getInfo().setEstaEstacionado(true);
+                                    // System.out.println("Rua: "+ rua);
+                                    // System.out.println("Estacionamento: " + estacionamento);
 
-                    }   
+                                
+                                }
+                            }else{ 
+                                posicao = posicao + 1;
+                                rua.push(estacionamento.pop(carroAtual.getInfo()));
+                                // System.out.println(rua);
+                            }
+                        }
+                    }else{
+                        System.out.println("O carro não está no estacionamento");
+                    }
+                }
             } else if (opcao != 0) {
                 System.out.println("Digite uma das opções");
             }
