@@ -49,9 +49,9 @@ public class Estacionamento {
 
                             while (!rua.estaVazia() && achou){
                                     
-                                estacionamento.push(rua.pop(carroAtual.getInfo()));
-                                carroAtual.getInfo().setManobras();
-                                System.out.println("Manobras: " + carroAtual.getInfo().manobras);
+                                estacionamento.push(rua.pop(rua.topo.getInfo()));
+                                estacionamento.topo.getInfo().setManobras();
+                                System.out.println("Manobras: " + estacionamento.topo.getInfo().getManobras());
                                 System.out.println("Rua: "+ rua);
                                 System.out.println("Estacionamento: " + estacionamento);
                             }
@@ -62,29 +62,18 @@ public class Estacionamento {
                     }
                 }
             } else if (opcao == 3) { //consultar
-                // int posicao;
-                // System.out.println("Digite a placa do carro que deseja consultar: ");
-                // int placaConsultado = scanner.nextInt();
-                // Carro carroConsultado = new Carro(placaConsultado);
-                // if (carroConsultado.estaEstacionado == true) {
-                //     System.out.println("O carro está no estacionamento");
-                //     //TODO qual posicao
-                //     boolean achou = false;
-                //     while (!estacionamento.estaVazia() && !achou){
-                //         Carro carroAtual = estacionamento.pop(carroConsultado); //percorrendo a pilha
-                //         if (carroAtual.getPlaca() == placaConsultado){ //se for o topo
-                //             achou = true;
-                //             posicao = 1;
-                //             System.out.println("O carro está na posição: " + posicao);
-                //         }else{
-                //             Pilhas<Carro> rua = new Pilhas<Carro>();  //tirar APENAS QUANDO MANOBRAR
-                //             rua.push(estacionamento.pop(carroRetirado));
-                //         }
-                //     }
+                int posicao;
+                System.out.println("Digite a placa do carro que deseja consultar: ");
+                int placaConsultado = scanner.nextInt();
+                Carro carroConsultado = new Carro(placaConsultado);
+                
+                if (carroConsultado.estaEstacionado == true) {
+                    System.out.println("O carro está no estacionamento");
+                    //TODO qual posicao
+                    boolean achou = false;
+                    while (!estacionamento.estaVazia() && !achou){
 
-                // } else {
-                //     System.out.println("O carro não está no estacionamento");
-                // }
+                    }   
             } else if (opcao != 0) {
                 System.out.println("Digite uma das opções");
             }
