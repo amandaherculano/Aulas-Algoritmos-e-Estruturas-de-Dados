@@ -6,7 +6,7 @@ public class Estacionamento {
         int quantidadeAtual = 0;
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Digite a quantidade máxima de carros neste estacionamento: ");
+        System.out.println("\n*ESTACIONAMENTO COM PILHA!*\nDigite a quantidade máxima de carros neste estacionamento: ");
         quantidadeMaxima = scanner.nextInt();
 
         Pilhas<Carro> estacionamento = new Pilhas<Carro>(); 
@@ -14,7 +14,7 @@ public class Estacionamento {
         int opcao;
 
         do {
-            System.out.println("O que deseja fazer?\nDigite 1 para adicionar carro,\nDigite 2 para remover carro\nDigite 3 para consultar se o carro esta no estacionamento\n0 encerra");
+            System.out.println("\nO que deseja fazer?\n1. Adicionar carro;\n2. Remover carro;\n3. Consultar se o carro esta no estacionamento;\n0. Encerrar");
             opcao = scanner.nextInt();
             if (opcao == 1) { //add
                 if (quantidadeAtual < quantidadeMaxima){
@@ -22,7 +22,6 @@ public class Estacionamento {
                     int placaNovo = scanner.nextInt();
                     Carro carroNovo = new Carro(placaNovo);
                     estacionamento.push(carroNovo);
-                    carroNovo.setEstaEstacionado(true);
                     quantidadeAtual = quantidadeAtual + 1;
                     System.out.println("Ocupação atual: "+ quantidadeAtual + ", máximo: " + quantidadeMaxima);
                 }
@@ -33,73 +32,56 @@ public class Estacionamento {
             } else if (opcao == 2) { //remover 
                 System.out.println("Digite a placa do carro que deseja retirar do estacionamento: ");
                 int placaRetirado = scanner.nextInt();
-                Carro carroRetirado = new Carro(placaRetirado);
-                if (carroRetirado.estaEstacionado == false) {
-                    System.out.println("O carro não está no estacionamento");
-                }else{
-                    boolean achou = false;
-                    Pilhas<Carro> rua = new Pilhas<Carro>(); 
-                    while (!estacionamento.estaVazia() && !achou){
-                        No<Carro> carroAtual = estacionamento.topo; //percorrendo a pilha
-                        if (carroAtual.getInfo().getPlaca() == placaRetirado){ 
-                            achou = true;
-                            System.out.println("O carro " + carroAtual + " foi retirado do estacionamento"); //nao
-                            estacionamento.pop(carroAtual.getInfo()); 
-                            quantidadeAtual = quantidadeAtual - 1;
-                            carroRetirado.estaEstacionado = false;
+                boolean achou = false;
+                Pilhas<Carro> rua = new Pilhas<Carro>(); 
+                while (!estacionamento.estaVazia() && !achou){
+                    No<Carro> carroAtual = estacionamento.topo; //percorrendo a pilha
+                    if (carroAtual.getInfo().getPlaca() == placaRetirado){ 
+                        achou = true;
+                        System.out.println("O carro " + carroAtual + " foi retirado do estacionamento"); //nao
+                        estacionamento.pop(carroAtual.getInfo()); 
+                        quantidadeAtual = quantidadeAtual - 1;
 
-                            while (!rua.estaVazia() && achou){
-                                    
-                                estacionamento.push(rua.pop(rua.topo.getInfo()));
-                                estacionamento.topo.getInfo().setManobras();
-                                estacionamento.topo.getInfo().setEstaEstacionado(true);
-                                // System.out.println("Manobras: " + estacionamento.topo.getInfo().getManobras());
-                                // System.out.println("Rua: "+ rua);
-                                // System.out.println("Estacionamento: " + estacionamento);
-                            }
-                        }else{ 
-                            rua.push(estacionamento.pop(carroAtual.getInfo()));
-                            // System.out.println(rua);
+                        while (!rua.estaVazia() && achou){
+                                
+                            estacionamento.push(rua.pop(rua.topo.getInfo()));
+                            estacionamento.topo.getInfo().setManobras();
+                            // System.out.println("Manobras: " + estacionamento.topo.getInfo().getManobras());
+                            // System.out.println("Rua: "+ rua);
+                            // System.out.println("Estacionamento: " + estacionamento);
                         }
+                    }else{ 
+                        rua.push(estacionamento.pop(carroAtual.getInfo()));
                     }
                 }
+                if (!achou){
+                    System.out.println("O carro não está no estacionamento");
+                } 
+            // }
             } else if (opcao == 3) { //consultar
                 int posicao = 1;
                 System.out.println("Digite a placa do carro que deseja consultar: ");
                 int placaConsultado = scanner.nextInt();
-                Carro carroConsultado = new Carro(placaConsultado);
-                if (carroConsultado.estaEstacionado == false) {
-                    System.out.println("O carro não está no estacionamento");
-                }else{
-                    boolean achou = false;
-                    Pilhas<Carro> rua = new Pilhas<Carro>(); 
-                    if(!achou){
-                        while (!estacionamento.estaVazia() && !achou){
-                            No<Carro> carroAtual = estacionamento.topo; //percorrendo a pilha
-                            if (carroAtual.getInfo().getPlaca() == placaConsultado){ 
-                                achou = true;
-                                
-                                System.out.println(carroAtual.getInfo());
-                                System.out.println("E ele está na posição: " + posicao); 
-    
-                                while (!rua.estaVazia() && achou){
-                                    
-                                    estacionamento.push(rua.pop(rua.topo.getInfo()));
-                                    estacionamento.topo.getInfo().setEstaEstacionado(true);
-                                    // System.out.println("Rua: "+ rua);
-                                    // System.out.println("Estacionamento: " + estacionamento);
-
-                                
-                                }
-                            }else{ 
-                                posicao = posicao + 1;
-                                rua.push(estacionamento.pop(carroAtual.getInfo()));
-                                // System.out.println(rua);
-                            }
+                boolean achou = false;
+                Pilhas<Carro> rua = new Pilhas<Carro>(); 
+                while (!estacionamento.estaVazia() && !achou){
+                    No<Carro> carroAtual = estacionamento.topo; //percorrendo a pilha
+                    if (carroAtual.getInfo().getPlaca() == placaConsultado){ 
+                        achou = true;     
+                        System.out.println(carroAtual.getInfo());
+                        System.out.println("E ele está na posição: " + posicao); 
+                        while (!rua.estaVazia() && achou){
+                            estacionamento.push(rua.pop(rua.topo.getInfo()));
+                            // System.out.println("Rua: "+ rua);
+                            // System.out.println("Estacionamento: " + estacionamento);
                         }
-                    }else{
-                        System.out.println("O carro não está no estacionamento");
+                    }else{ 
+                        posicao = posicao + 1;
+                        rua.push(estacionamento.pop(carroAtual.getInfo()));
                     }
+                }
+                if (!achou){
+                    System.out.println("O carro não está no estacionamento");
                 }
             } else if (opcao != 0) {
                 System.out.println("Digite uma das opções");
